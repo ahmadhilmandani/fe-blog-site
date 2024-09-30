@@ -100,12 +100,7 @@
     <h1 class="text-3xl mb-10">Happy Reading!✨</h1>
 
     <div class="flex gap-8">
-      <section id="article-container" class="min-w-[200px] flex-1">
-      </section>
-      <aside id="most-read-article-container"
-        class="border border-slate-200 rounded-lg min-w-[200px] max-w-[400px] flex-1 p-5">
-        <h2 class="mb-5">Most Read Article</h2>
-      </aside>
+      sadajqwhdo
     </div>
   </main>
 
@@ -114,59 +109,19 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script>
+    var urlParams = new URLSearchParams(window.location.search)
+    id = urlParams.get('id')
     $(document).ready(function () {
-
       $.ajax({
-        url: "http://127.0.0.1:5000/get-all-article",
+        url: `http://127.0.0.1:5000/get-article/${id}`,
         type: "GET",
         success: (res) => {
-          for (let index = 0; index < res.data.length; index++) {
-            $('#article-container').prepend(
-              `<a href="/view/detail-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 block border border-slate-200 rounded-lg p-5 mb-5">
-            <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
-            <h2 class="mb-3">${res.data[index].title}</h2>
-            <p class="line-clamp-3 mb-5">
-              ${res.data[index].body}
-            </p>
-            <div class="flex gap-2">
-              <span class="material-symbols-outlined text-neutral-400 text-[20px]">
-                visibility
-              </span>
-              <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
-            </div>
-          </a>`
-            )
-          }
+          console.log(res)
         },
         error: (err) => {
           console.log(err)
         },
         complete: () => {
-        }
-      })
-
-      $.ajax({
-        url: "http://127.0.0.1:5000/most-read-article",
-        type: "GET",
-        success: (res) => {
-          for (let index = 0; index < res.data.length; index++) {
-            $('#most-read-article-container').append(
-              `<a class="block mb-5">
-          <b class="line-clamp-2 mb-1">
-            ${res.data[index].title}
-          </b>
-          <div class="flex gap-6 items-start">
-            <small class="text-[12px] text-neutral-400">${res.data[index].writer}</small>
-            <div class="flex gap-2">
-              <span class="material-symbols-outlined text-neutral-400 text-[20px]">
-                visibility
-              </span>
-              <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
-            </div>
-          </div>
-        </a>`
-            )
-          }
         }
       })
     })
