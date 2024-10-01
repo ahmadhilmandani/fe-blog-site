@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blogsite</title>
   <!-- Tailwind CSS -->
@@ -125,6 +126,7 @@
           $('#article-container').append(
             `
             <h1 class="text-3xl mb-5 text-center">${res.title}</h1>
+            <img src="${res.thumbnail_url}" class="w-full rounded-lg mb-5">
             <div class="flex gap-3 mx-auto w-fit mb-12">
               <div class="flex items-center gap-1">
                 <span class="material-symbols-outlined text-neutral-400 text-[20px]">
