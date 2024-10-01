@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
   <title>Blogsite</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -95,7 +96,6 @@
     </div>
   </nav>
 
-
   <main class="mt-32 mb-14 px-12">
     <h1 class="text-3xl mb-10">Happy Reading!✨</h1>
 
@@ -122,19 +122,24 @@
         success: (res) => {
           for (let index = 0; index < res.data.length; index++) {
             $('#article-container').prepend(
-              `<a href="/view/detail-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 block border border-slate-200 rounded-lg p-5 mb-5">
-            <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
-            <h2 class="mb-3">${res.data[index].title}</h2>
-            <p class="line-clamp-3 mb-5">
-              ${res.data[index].body}
-            </p>
-            <div class="flex gap-2">
-              <span class="material-symbols-outlined text-neutral-400 text-[20px]">
-                visibility
-              </span>
-              <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
+          `
+          <a href="/view/detail-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 flex items-start border border-slate-200 rounded-lg p-5 mb-5 gap-5">
+            <div class='min-w-[200px] flex-1'>  
+                <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
+                <h2 class="mb-3">${res.data[index].title}</h2>
+                <p class="line-clamp-3 mb-5">
+                  ${res.data[index].sub_title}
+                </p>
+                <div class="flex gap-2">
+                  <span class="material-symbols-outlined text-neutral-400 text-[20px]">
+                    visibility
+                  </span>
+                  <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
+                </div>
             </div>
-          </a>`
+            <img src="${res.data[index].thumbnail_url}" class="min-w-[200px] max-w-[240px] flex-1 rounded-lg">
+          </a>
+          `
             )
           }
         },
