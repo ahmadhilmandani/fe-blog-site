@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blogsite</title>
+  <script>
+    if(!localStorage.getItem('token')){
+      window.location.href = '/view/index.html'
+    }
+  </script>
   <!-- tiny -->
   <!-- Place the first <script> tag in your HTML's <head> -->
   <script src="https://cdn.tiny.cloud/1/jx4mmd4wa4uqhha0q205mzfobe02wh1huc3a7zktif7v7jgw/tinymce/7/tinymce.min.js"
