@@ -63,15 +63,15 @@
 </head>
 
 <body>
-  <main class="px-12 flex items-center justify-center w-full min-h-screen">
+  <main class="p-12 flex items-center justify-center w-full min-h-screen">
     <div class="min-w-[200px] flex-1 max-w-[400px]">
       <div class="flex items-center gap-3 mb-14 mx-auto w-fit">
         <img src="../assets/logo.png" alt="Blogsite logo" class="w-12">
         <strong class="text-3xl">Blogsite</strong>
       </div>
       <div class="mb-5">
-        <h2 class="mb-1">Login</h2>
-        <p>Hello, there! happy to have you here!💖</p>
+        <h2 class="mb-1">login</h2>
+        <p>What kind of article We Would Find Today😁</p>
       </div>
       <div class="mb-8">
         <label for="" class="mb-3 block text-[13.5px] text-neutral-500">Email:</label>
@@ -82,7 +82,7 @@
             </span>
             </svg>
           </div>
-          <input type="search" id="default-search"
+          <input type="email" id="email"
             class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
             placeholder="e.g: budi@andi.com" required />
         </div>
@@ -96,14 +96,14 @@
             </span>
             </svg>
           </div>
-          <input type="search" id="default-search"
+          <input type="password" id="password"
             class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
             placeholder="e.g: budi@andi.com" required />
         </div>
       </div>
-      <button class="block w-full bg-cust-yellow-700 text-white mb-3">Login</button>
+      <button id="login-button" class="block w-full bg-cust-yellow-700 text-white mb-3">Login</button>
       <div class="w-fit mx-auto">
-        <div>Dont have an account yet? <a href="/view/register.html" class="text-cust-yellow-700 underline">Register here!</a></div>
+        <div>Don't have an account yet? <a href="/view/register.html" class="text-cust-yellow-700 underline">register here!</a></div>
       </div>
     </div>
   </main>
@@ -114,34 +114,23 @@
 
   <script>
     $(document).ready(function () {
+      $('#login-button').click(()=>{
+        const email = $('#email').val()
+        const password = $('#password').val()
 
-      $.ajax({
-        url: "http://127.0.0.1:5000/get-all-article/1231",
-        type: "GET",
-        success: (res) => {
-          for (let index = 0; index < res.data.length; index++) {
-            $('#article-container').prepend(
-              `<a href="/view/detail-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 block border border-slate-200 rounded-lg p-5 mb-5">
-            <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
-            <h2 class="mb-3">${res.data[index].title}</h2>
-            <p class="line-clamp-3 mb-5">
-              ${res.data[index].body}
-            </p>
-            <div class="flex gap-2">
-              <span class="material-symbols-outlined text-neutral-400 text-[20px]">
-                visibility
-              </span>
-              <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
-            </div>
-          </a>`
-            )
+        $.ajax({
+          url: 'http://127.0.0.1:5000/login',
+          type: 'POST',
+          data: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+          contentType: "application/json",
+          success: (res)=>{
+            localStorage.setItem('token', res.data.token)
+            window.location.href = '/view/index.html'
           }
-        },
-        error: (err) => {
-          console.log(err)
-        },
-        complete: () => {
-        }
+        })
       })
     })
   </script>

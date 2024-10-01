@@ -63,7 +63,7 @@
 </head>
 
 <body>
-  <main class="px-12 flex items-center justify-center w-full min-h-screen">
+  <main class="p-12 flex items-center justify-center w-full min-h-screen">
     <div class="min-w-[200px] flex-1 max-w-[400px]">
       <div class="flex items-center gap-3 mb-14 mx-auto w-fit">
         <img src="../assets/logo.png" alt="Blogsite logo" class="w-12">
@@ -71,7 +71,21 @@
       </div>
       <div class="mb-5">
         <h2 class="mb-1">Register</h2>
-        <p>I'm so happy of your registraion!😁</p>
+        <p>I'm so happy of your registraion!💖</p>
+      </div>
+      <div class="mb-8">
+        <label for="" class="mb-3 block text-[13.5px] text-neutral-500">Name:</label>
+        <div class="relative w-full">
+          <div class="absolute inset-y-0 start-0 flex items-center pl-2 pointer-events-none">
+            <span class="material-symbols-outlined text-slate-300">
+              person
+            </span>
+            </svg>
+          </div>
+          <input type="text" id="name"
+            class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
+            placeholder="e.g: budi@andi.com" required />
+        </div>
       </div>
       <div class="mb-8">
         <label for="" class="mb-3 block text-[13.5px] text-neutral-500">Email:</label>
@@ -82,7 +96,21 @@
             </span>
             </svg>
           </div>
-          <input type="search" id="default-search"
+          <input type="email" id="email"
+            class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
+            placeholder="e.g: budi@andi.com" required />
+        </div>
+      </div>
+      <div class="mb-8">
+        <label for="" class="mb-3 block text-[13.5px] text-neutral-500">Short Bio:</label>
+        <div class="relative w-full">
+          <div class="absolute inset-y-0 start-0 flex items-center pl-2 pointer-events-none">
+            <span class="material-symbols-outlined text-slate-300">
+              import_contacts
+            </span>
+            </svg>
+          </div>
+          <input type="text" id="short_bio"
             class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
             placeholder="e.g: budi@andi.com" required />
         </div>
@@ -96,12 +124,12 @@
             </span>
             </svg>
           </div>
-          <input type="search" id="default-search"
+          <input type="password" id="password"
             class="block w-full pl-10 pr-3 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
             placeholder="e.g: budi@andi.com" required />
         </div>
       </div>
-      <button class="block w-full bg-cust-yellow-700 text-white mb-3">Login</button>
+      <button id="register-button" class="block w-full bg-cust-yellow-700 text-white mb-3">Register</button>
       <div class="w-fit mx-auto">
         <div>Already have an account? <a href="/view/login.html" class="text-cust-yellow-700 underline">Login here!</a></div>
       </div>
@@ -114,34 +142,26 @@
 
   <script>
     $(document).ready(function () {
+      $('#register-button').click(()=>{
+        const name = $('#name').val()
+        const email = $('#email').val()
+        const short_bio = $('#short_bio').val()
+        const password = $('#password').val()
 
-      $.ajax({
-        url: "http://127.0.0.1:5000/get-all-article/1231",
-        type: "GET",
-        success: (res) => {
-          for (let index = 0; index < res.data.length; index++) {
-            $('#article-container').prepend(
-              `<a href="/view/detail-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 block border border-slate-200 rounded-lg p-5 mb-5">
-            <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
-            <h2 class="mb-3">${res.data[index].title}</h2>
-            <p class="line-clamp-3 mb-5">
-              ${res.data[index].body}
-            </p>
-            <div class="flex gap-2">
-              <span class="material-symbols-outlined text-neutral-400 text-[20px]">
-                visibility
-              </span>
-              <small class="text-[12px] text-neutral-400">${res.data[index].viewed} pembaca</small>
-            </div>
-          </a>`
-            )
+        $.ajax({
+          url: 'http://127.0.0.1:5000/register-user',
+          type: 'POST',
+          data: JSON.stringify({
+            name: name,
+            email: email,
+            short_bio: short_bio,
+            password: password,
+          }),
+          contentType: "application/json",
+          success: (res)=>{
+            window.location.href = '/view/login.html'
           }
-        },
-        error: (err) => {
-          console.log(err)
-        },
-        complete: () => {
-        }
+        })
       })
     })
   </script>
