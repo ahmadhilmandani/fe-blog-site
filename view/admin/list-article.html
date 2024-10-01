@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogsite</title>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/view/login.html'
+    }
+  </script>
+  <!-- tiny -->
+  <!-- Place the first <script> tag in your HTML's <head> -->
+  <script src="https://cdn.tiny.cloud/1/jx4mmd4wa4uqhha0q205mzfobe02wh1huc3a7zktif7v7jgw/tinymce/7/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/view/index.html'
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cust-yellow-500': '#FCDE70',
+            'cust-yellow-700': '#E8B86D',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+      body{
+        font-family: "Poppins", sans-serif;
+        @apply text-neutral-800;
+      }
+      :not(h1, h2, h3, h4, h5, h6) {
+        @apply text-[14.5px] sm:max-xl:text-[24px];
+      }
+      h1 {
+        @apply text-[32px] xl:text-[24px] sm:max-xl:text-[72px] font-bold;
+      }
+      h2 {
+        @apply text-[24px] xl:text-[20px] sm:max-xl:text-[60px] font-bold;
+      }
+      h3 {
+        @apply text-[20px] xl:text-[16px] sm:max-xl:text-[48px] font-bold;
+      }
+      button {
+        @apply rounded-full px-3 py-1.5 text-center flex items-center justify-center;
+      }
+  }
+    </style>
+  <!-- Google Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+
+<body>
+  <!-- nav -->
+  <nav
+    class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white z-[99]">
+    <div class="flex items-center gap-3">
+      <img src="../../assets/logo.png" alt="Blogsite logo" class="w-8">
+      <strong class="text-xl">Blogsite</strong>
+    </div>
+
+    <div class="flex justify-end items-center flex-1 gap-10">
+      <a href="/view/admin/list-user.html" class="text-xs">List User</a>
+      <a href="/view/admin/list-article.html" class="text-xs">List Article</a>
+    </div>
+  </nav>
+
+
+  <main class="mt-32 px-12 mb-14">
+    <h1 class="mb-3">List Article</h1>
+    <div class="overflow-auto rounded-lg border border-slate-300">
+      <table class="w-full">
+        <thead class="bg-white border-b border-slate-300">
+          <tr>
+            <th class="w-10 p-3 text-sm font-semibold tracking-wide text-left">No.</th>
+            <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Dibuat Pada</th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Judul</th>
+            <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">Penulis</th>
+            <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Pembaca</th>
+            <th class="w-[90px] p-3 text-sm font-semibold tracking-wide text-left">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200" id="article-container">
+
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+
+  <!-- jQuery, Axios, Custom JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="../../js/admin.js" type="js"></script>
+  <script>
+    $(document).ready(function () {
+      $.ajax({
+        url: 'http://127.0.0.1:5000//get-all-article',
+        type: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        success: function (response) {
+          console.log(response)
+          for (let index = 0; index < response.data.length; index++) {
+            $('#article-container').append(
+              `
+          <tr class="bg-white">
+            <td class="w-10 p-3 text-sm whitespace-nowrap">
+              <a href="#" class="font-bold text-cust-yellow-700">${index+1}</a>
+            </td>
+            <td class="w-20 p-3 text-sm whitespace-nowrap">
+              ${response.data[index].created_at}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">
+              ${response.data[index].title}
+            </td>
+            <td class="w-32 p-3 text-sm whitespace-nowrap">
+              ${response.data[index].writer}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">${response.data[index].viewed}</td>
+            <td class="w-[120px] p-3 text-sm flex flex-wrap gap-3 justify-center items-center">
+              <a href="/view/admin/detail-article.html?id=${response.data[index].id}" class="material-symbols-outlined text-cust-yellow-700">
+                visibility
+              </a>
+              <span class="material-symbols-outlined text-pink-400">
+                delete
+              </span>
+              <a href="/view/admin/edit-article.html?id=${response.data[index].id}" class="material-symbols-outlined text-orange-400">
+                edit
+              </a>
+            </td>
+          </tr>
+          `
+            )
+          }
+        }, error: (err) => {
+          console.log(err)
+        }
+      })
+    })
+  </script>
+
+</body>
+
+</html>
