@@ -24,6 +24,8 @@
       window.location.href = '/view/index.html'
     }
   </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
@@ -77,6 +79,21 @@
 </head>
 
 <body>
+  <div id="confirmationModal"
+    class="fixed top-0 bottom-0 right-0 left-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-[500]">
+    <div class="bg-white border border-slate-300 px-8 py-12 rounded-lg">
+      <h2 class="text-lg font-semibold mb-4">Apakah anda yakin ingin menghapus artikel?</h2>
+      <div class="space-y-4">
+        <button id="confirmNo"
+          class="block w-full px-3 py-1 text-[13.5px] bg-slate-100 text-slate-600 rounded-full">Tidak</button>
+        <button id="confirmYes"
+          class="block w-full px-3 py-1 text-[13.5px] bg-cust-yellow-700 text-white rounded-full">Iya</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed top-5 right-5 space-y-4"></div>
+
   <!-- nav -->
   <nav
     class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white z-[99]">
@@ -121,19 +138,21 @@
   <script src="../../js/admin.js" type="js"></script>
   <script>
     $(document).ready(function () {
-      $.ajax({
-        url: 'http://127.0.0.1:5000//get-all-article',
-        type: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        success: function (response) {
-          for (let index = 0; index < response.data.length; index++) {
-            $('#article-container').append(
-              `
+      function initFetchData() {
+        $('#article-container').html('')
+        $.ajax({
+          url: 'http://127.0.0.1:5000//get-all-article',
+          type: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          success: function (response) {
+            for (let index = 0; index < response.data.length; index++) {
+              $('#article-container').append(
+                `
           <tr class="bg-white">
             <td class="w-10 p-3 text-sm whitespace-nowrap">
-              <a href="#" class="font-bold text-cust-yellow-700">${index+1}</a>
+              <a href="#" class="font-bold text-cust-yellow-700">${index + 1}</a>
             </td>
             <td class="w-20 p-3 text-sm whitespace-nowrap">
               ${response.data[index].created_at}
@@ -149,7 +168,7 @@
               <a href="/view/admin/detail-article.html?id=${response.data[index].id}" class="material-symbols-outlined text-cust-yellow-700">
                 visibility
               </a>
-              <span class="material-symbols-outlined text-pink-400">
+              <span class="material-symbols-outlined delete text-pink-400 cursor-pointer" data-id='${response.data[index].id}'>
                 delete
               </span>
               <a href="/view/admin/edit-article.html?id=${response.data[index].id}" class="material-symbols-outlined text-orange-400">
@@ -158,12 +177,63 @@
             </td>
           </tr>
           `
-            )
+              )
+            }
+          }, error: (err) => {
+            console.log(err)
           }
-        }, error: (err) => {
-          console.log(err)
+        })
+      }
+
+      initFetchData()
+
+      $('table').on('click', 'span.delete', function () {
+        const articleId = $(this).data('id')
+
+        openConfirmationModal(articleId)
+      });
+
+      function openConfirmationModal(id) {
+        $('#confirmationModal').removeClass('hidden')
+
+        $('#confirmYes').click(() => {
+          $.ajax({
+            url: `http://127.0.0.1:5000/article/${id}`,
+            type: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            success: function (response) {
+              initFetchData()
+              showToast("Berhasil!", "success");
+
+            },
+            error: (err) => {
+              console.log(err)
+            }, complete: () => {
+              $('#confirmationModal').addClass('hidden')
+            }
+          })
+        })
+
+        $('#confirmNo').click(() => {
+          $('#confirmationModal').addClass('hidden')
+        })
+
+
+        function showToast(message, type = "success") {
+          let backgroundColor = type === "success" ? "#4CAF50" : "#F44336"; // Green for success, Red for error
+          Toastify({
+            text: message,
+            duration: 3000, // 3 seconds
+            close: true,
+            gravity: "top", // Toast will appear at the top
+            position: "right", // Right side
+            backgroundColor: backgroundColor,
+            stopOnFocus: true, // Stop dismissing on hover
+          }).showToast();
         }
-      })
+      }
     })
   </script>
 
