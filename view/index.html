@@ -75,7 +75,7 @@
     </div>
 
     <div class="flex justify-end items-center flex-1 gap-3">
-      <form class="max-w-[400px] flex-1">
+      <!-- <form class="max-w-[400px] flex-1">
         <div class="relative">
           <div class="absolute inset-y-0 start-0 flex items-center pl-2 pointer-events-none">
             <span class="material-symbols-outlined text-slate-300">
@@ -89,7 +89,7 @@
           <button type="submit"
             class="text-white absolute right-2 top-2 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 font-medium rounded-full text-xs px-3 py-1.5">Search</button>
         </div>
-      </form>
+      </form> -->
       <div id="dinamic-nav-content" class="flex gap-3">
 
       </div>
@@ -118,13 +118,31 @@
     <h1 class="text-3xl mb-10">Happy Reading!✨</h1>
 
     <div class="flex gap-8 items-start">
-      <section id="article-container" class="min-w-[200px] flex-1">
-      </section>
+      <div class="min-w-[200px] flex-1">
+        <section id="article-container">
+        </section>
+        <div id="pagination-container" class="flex justify-between items-center">
+          <div id="pagination-prev" class="border rounded-full p-2 border-slate-300 flex items-center justify-center">
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </div>
+          <div id="num-pagination-container" class="flex gap-5">
+          </div>
+          <div id="pagination-next" class="border rounded-full p-2 border-slate-300 flex items-center justify-center">
+            <span class="material-symbols-outlined">
+              chevron_right
+            </span>
+          </div>
+
+        </div>
+      </div>
       <aside id="most-read-article-container"
         class="border border-slate-200 rounded-lg min-w-[200px] max-w-[400px] flex-1 p-5">
         <h2 class="mb-5">Most Read Article</h2>
       </aside>
     </div>
+
   </main>
 
   <!-- jQuery, Axios, Custom JS -->
@@ -134,14 +152,17 @@
 
   <script>
     $(document).ready(function () {
-
-      $.ajax({
-        url: "http://127.0.0.1:5000/get-all-article",
-        type: "GET",
-        success: (res) => {
-          for (let index = 0; index < res.data.length; index++) {
-            $('#article-container').prepend(
-              `
+      function getAllArticle(page = 1) {
+        $('#article-container').html('')
+        $('#num-pagination-container').html('')
+        $.ajax({
+          url: `http://127.0.0.1:5000/get-all-article?page=${page}`,
+          type: "GET",
+          success: (res) => {
+            console.log(res)
+            for (let index = 0; index < res.data.length; index++) {
+              $('#article-container').prepend(
+                `
           <a href="/view/read-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 flex items-start border border-slate-200 rounded-lg p-5 mb-5 gap-5">
             <div class='min-w-[200px] flex-1'>  
                 <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
@@ -159,15 +180,62 @@
             <img src="${res.data[index].thumbnail_url}" class="min-w-[200px] max-w-[240px] flex-1 rounded-lg">
           </a>
           `
-            )
+              )
+            }
+
+            const totalPages = Math.ceil(res.total / 10)
+
+            for (let index = 0; index < totalPages; index++) {
+              $('#num-pagination-container').append(
+                `
+                <div data-num="${index + 1}" class="pagination border rounded-full size-8 border-slate-300 flex items-center justify-center">
+                  ${index + 1}
+                </div>
+                `
+              )
+            }
+
+            $('#pagination-prev').attr('data-num-current', parseInt(page))
+            $('#pagination-next').attr('data-num-current', parseInt(page))
+            $('#pagination-next').attr('data-num-total', totalPages)
+
+
+
+
+          },
+          error: (err) => {
+            console.log(err)
+          },
+          complete: () => {
           }
-        },
-        error: (err) => {
-          console.log(err)
-        },
-        complete: () => {
+        })
+      }
+
+      getAllArticle()
+
+
+      $('main').on('click', 'div.pagination', function () {
+        const pageNum = $(this).data('num')
+        getAllArticle(pageNum)
+      })
+      
+      
+      $('#pagination-prev').click(() => {
+        const pageNum = parseInt($('#pagination-prev').attr('data-num-current'))
+        if (pageNum != 1) {
+          getAllArticle(pageNum - 1)
         }
       })
+      
+      $('#pagination-next').click(() => {
+        const pageNum = parseInt($('#pagination-next').attr('data-num-current'))
+        const pageNumTotal = parseInt($('#pagination-next').attr('data-num-total'))
+        if (pageNum != pageNumTotal) {
+          getAllArticle(pageNum + 1)
+        }
+      })
+
+
 
       $.ajax({
         url: "http://127.0.0.1:5000/most-read-article",
