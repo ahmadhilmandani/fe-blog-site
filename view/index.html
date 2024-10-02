@@ -163,8 +163,8 @@
             for (let index = 0; index < res.data.length; index++) {
               $('#article-container').prepend(
                 `
-          <a href="/view/read-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 flex flex-wrap flex-col-reverse xl:flex-col items-start border border-slate-200 rounded-lg p-5 mb-5 gap-5">
-            <div class='min-w-[200px] flex-1 bg-red-100'>  
+          <a href="/view/read-article.html?id=${res.data[index].id}" class="transition-all hover:bg-slate-50 flex flex-wrap flex-col-reverse xl:flex-row items-start border border-slate-200 rounded-lg p-5 mb-5 gap-5">
+            <div class='min-w-[200px] flex-1'>  
                 <small class="mb-3 text-neutral-400">${res.data[index].writer}</small>
                 <h2 class="mb-3">${res.data[index].title}</h2>
                 <p class="line-clamp-3 mb-5">
