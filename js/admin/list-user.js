@@ -22,7 +22,7 @@ $(document).ready(function () {
             ${res.data[index].role}
           </td>
           <td class="w-32 p-3 text-sm whitespace-nowrap">
-            ${res.data[index].role == 'writer' ? '-' :
+            ${res.data[index].role == 'user' ? '-' :
               res.data[index].is_verif ? 'Terverifikasi' : 'Belum Terverifikasi'
             }
           </td>
@@ -93,6 +93,7 @@ $(document).ready(function () {
   })
 
 
+
   function veriWriter(id) {
     $.ajax({
       url: `http://127.0.0.1:5000/verif-writer/${id}`,
@@ -100,15 +101,48 @@ $(document).ready(function () {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      success: (res) => {
-        window.location.reload()
+      success: function (response) {
+        initFetchData()
+        showToast("Berhasil!", "success");
+
+      },
+      error: (err) => {
+        console.log(err)
+      }, complete: () => {
+        $('#confirmationModal').addClass('hidden')
       }
-    }) 
+    })
   }
 
-  $('#list-user-container').on('click', 'button[data-id]', function() {
-    const userId = $(this).data('id')
-    veriWriter(userId)
+  $('#list-user-container').on('click', 'button[data-id]', function () {
+    const id = $(this).data('id')
+
+    // openConfirmationModal(id)
+    $('#confirmationModal').removeClass('hidden')
+    
+    $('#confirmYes').click(() => {
+      // $('#confirmationModal').addClass('hidden')
+      veriWriter(id)
+    })
+  
+    $('#confirmNo').click(() => {
+      $('#confirmationModal').addClass('hidden')
+    })
   });
 
-})
+
+
+  function showToast(message, type = "success") {
+    let backgroundColor = type === "success" ? "#4CAF50" : "#F44336"; // Green for success, Red for error
+    Toastify({
+      text: message,
+      duration: 3000, // 3 seconds
+      close: true,
+      gravity: "top", // Toast will appear at the top
+      position: "right", // Right side
+      backgroundColor: backgroundColor,
+      stopOnFocus: true, // Stop dismissing on hover
+    }).showToast();
+  }
+}
+)
