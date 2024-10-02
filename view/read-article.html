@@ -66,35 +66,33 @@
 <body>
   <!-- nav -->
   <nav
-    class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white">
-    <div class="flex items-center gap-3">
-      <img src="../assets/logo.png" alt="Blogsite logo" class="w-8">
-      <strong class="text-xl">Blogsite</strong>
-    </div>
+  class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white">
+  <div class="flex items-center gap-3">
+    <img src="../assets/logo.png" alt="Blogsite logo" class="w-8">
+    <strong class="text-xl">Blogsite</strong>
+  </div>
 
-    <div class="flex justify-end items-center flex-1 gap-3">
-      <form class="max-w-[400px] flex-1">
-        <div class="relative">
-          <div class="absolute inset-y-0 start-0 flex items-center pl-2 pointer-events-none">
-            <span class="material-symbols-outlined text-slate-300">
-              search
-            </span>
-            </svg>
-          </div>
-          <input type="search" id="default-search"
-            class="block w-full pl-10 pr-24 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
-            placeholder="Search Mockups, Logos..." required />
-          <button type="submit"
-            class="text-white absolute right-2 top-2 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 font-medium rounded-full text-xs px-3 py-1.5">Search</button>
+  <div class="flex justify-end items-center flex-1 gap-3">
+    <form class="max-w-[400px] flex-1">
+      <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center pl-2 pointer-events-none">
+          <span class="material-symbols-outlined text-slate-300">
+            search
+          </span>
+          </svg>
         </div>
-      </form>
-      <div class="p-2 rounded-full border border-slate-200 flex items-center justify-center">
-        <span class="material-symbols-outlined text-neutral-700">
-          dark_mode
-        </span>
+        <input type="search" id="default-search"
+          class="block w-full pl-10 pr-24 py-3 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none"
+          placeholder="Search Mockups, Logos..." required />
+        <button type="submit"
+          class="text-white absolute right-2 top-2 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 font-medium rounded-full text-xs px-3 py-1.5">Search</button>
       </div>
+    </form>
+    <div id="dinamic-nav-content" class="flex gap-3">
+
     </div>
-  </nav>
+  </div>
+</nav>
 
 
   <main class="mt-32 mb-14 max-w-4xl mx-auto">
@@ -112,6 +110,7 @@
   <!-- jQuery, Axios, Custom JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="../js/index.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <script>dayjs().format()</script>
