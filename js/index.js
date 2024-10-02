@@ -11,25 +11,25 @@ function dinamicNav() {
           if (res.is_verif == true) {
             $('#dinamic-nav-content').append(
               `
-              <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+              <div id="logout" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
                 Logout
               </div>
-              <a href="/view/writer/dashboard.html" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
-                Writer Dashboard
+              <a href="/view/writer/dashboard.html" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
+                List Artikel
               </a>
-              <a href="/view/writer/write-article.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-3 py-1 rounded-full">
-                Tulis Artikel
+              <a href="/view/writer/write-article.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-2 text-[13.5px] py-1 rounded-full">
+                Tulis
               </a>
               `
             )
           } else {
             $('#dinamic-nav-content').append(
               `
-              <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+              <div id="logout" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
                 Logout
               </div>
-              <div class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
-                Menunggu Verifikasi Admin
+              <div class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
+               Proses Verifikasi
               </div>
               `
             )
@@ -37,13 +37,13 @@ function dinamicNav() {
         } else if (res.role == 'admin') {
           $('#dinamic-nav-content').append(
             `
-            <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+            <div id="logout" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
                 Logout
             </div>
-            <a href="/view/admin/list-article.html" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+            <a href="/view/admin/list-article.html" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
               List Article
             </a>
-            <a href="/view/admin/list-user.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-3 py-1 rounded-full">
+            <a href="/view/admin/list-user.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-2 text-[13.5px] py-1 rounded-full">
               List User
             </a>
             `
@@ -52,11 +52,11 @@ function dinamicNav() {
           $('#dinamic-nav-content').append(
 
           `
-          <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+          <div id="logout" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
             Logout
           </div>
-          <div id="register-as-writer" data-id='${res.id}' class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-3 py-1 rounded-full cursor-pointer">
-            Daftar menjadi Penulis
+          <div id="register-as-writer" data-id='${res.id}' class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-2 text-[13.5px] py-1 rounded-full cursor-pointer">
+            daftar jadi penulis
           </div>
           `
           )
@@ -68,10 +68,10 @@ function dinamicNav() {
   } else {
     $('#dinamic-nav-content').append(
       `
-      <a href="/view/login.html" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+      <a href="/view/login.html" class="border border-slate-300 px-2 text-[13.5px] py-1 rounded-full hover:bg-slate-50 transition-all">
         Login
       </a>
-      <a href="/view/register.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-3 py-1 rounded-full">
+      <a href="/view/register.html" class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-2 text-[13.5px] py-1 rounded-full">
         Register
       </a>
       `
