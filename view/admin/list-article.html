@@ -128,7 +128,6 @@
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         success: function (response) {
-          console.log(response)
           for (let index = 0; index < response.data.length; index++) {
             $('#article-container').append(
               `

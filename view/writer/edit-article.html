@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>Blogsite</title>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/view/login.html'
+    }
+  </script>
+  <!-- tiny -->
+  <!-- Place the first <script> tag in your HTML's <head> -->
+  <script src="https://cdn.tiny.cloud/1/jx4mmd4wa4uqhha0q205mzfobe02wh1huc3a7zktif7v7jgw/tinymce/7/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cust-yellow-500': '#FCDE70',
+            'cust-yellow-700': '#E8B86D',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+      body{
+        font-family: "Poppins", sans-serif;
+        @apply text-neutral-800;
+      }
+      :not(h1, h2, h3, h4, h5, h6) {
+        @apply text-[14.5px] sm:max-xl:text-[24px];
+      }
+      h1 {
+        @apply text-[32px] xl:text-[24px] sm:max-xl:text-[72px] font-bold;
+      }
+      h2 {
+        @apply text-[24px] xl:text-[20px] sm:max-xl:text-[60px] font-bold;
+      }
+      h3 {
+        @apply text-[20px] xl:text-[16px] sm:max-xl:text-[48px] font-bold;
+      }
+      button {
+        @apply rounded-full px-3 py-1.5 text-center flex items-center justify-center;
+      }
+  }
+    </style>
+  <!-- Google Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container-loading"
+    class="fixed top-0 bottom-0 right-0 left-0 bg-white bg-opacity-80 flex items-center justify-center z-[500]">
+    <div class="bg-cust-yellow-700 text-white px-8 py-3 rounded-lg font-bold flex gap-2 items-center">
+      <span class="material-symbols-outlined animate-spin text-white">
+        progress_activity
+        </span>
+      Loading...
+    </div>
+  </div>
+  <!-- nav -->
+  <nav
+    class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white z-[99]">
+    <div class="flex items-center gap-3">
+      <img src="../../assets/logo.png" alt="Blogsite logo" class="w-8">
+      <strong class="text-xl">Blogsite</strong>
+    </div>
+
+    <div class="flex justify-end items-center flex-1 gap-10">
+      <a href="/view/writer/dashboard.html" class="text-xs">Dashboard</a>
+      <a href="/view/writer/write-article.html"
+        class="text-xs px-3 py-1.5 bg-cust-yellow-700 rounded-full text-white hover:bg-cust-yellow-700/80 transition-all">Tulis
+        Artikel Baru</a>
+    </div>
+  </nav>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+      <h2 class="text-lg font-semibold mb-4">Are you sure?</h2>
+      <div class="space-x-4">
+        <button id="confirmYes" class="px-4 py-2 bg-blue-600 text-white rounded">Yes</button>
+        <button id="confirmNo" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">No</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="mt-32 mb-14 max-w-[800px] w-full mx-auto">
+    <a href="/view/writer/dashboard.html"
+      class="flex gap-2 items-center w-fit py-2 px-3 border border-slate-200 rounded-full mb-5 hover:bg-slate-50 transition-all">
+      <span class="material-symbols-outlined text-neutral-700">
+        arrow_back_ios
+      </span>
+      kembali
+    </a>
+    <form action="" id="uploadForm" enctype="multipart/form-data">
+      <div class="mb-12">
+        <div id="container-thumbnail" class="mb-12">
+          <img id="thumbnail-img" class="max-w-60 w-full mx-auto mb-2">
+          <small id="edit-thumbnail-button" class="text-center text-neutral-500 block mx-auto">Edit image</small>
+        </div>
+        <div id="container-image-upload" class="hidden">
+          <label for="" class="font-semibold block mb-4">Thumbnail</label>
+          <input type="file" id="image" name="image">
+          <small id="cancel-edit-thumbnail-button" class="text-center text-pink-400">Batal Edit Image</small>
+
+        </div>
+      </div>
+      <div class="mb-12">
+        <label for="" class="font-semibold block mb-4">Judul</label>
+        <input type="text" name="title" id="title"
+          class="block w-full px-3 py-2 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none">
+      </div>
+      <div class="mb-12">
+        <label for="" class="font-semibold block mb-4">Sub Judul</label>
+        <input type="text" name="title" id="sub_title"
+          class="block w-full px-3 py-2 text-sm text-slate-900 border border-slate-200 rounded-full bg-slate-50 focus:ring-cust-yellow-700 focus:border-cust-yellow-700 outline-none">
+      </div>
+      <div class="mb-12">
+        <label for="" class="font-semibold block mb-4">Konten</label>
+        <textarea id="mytextarea" name="body"></textarea>
+      </div>
+      <button id="login" type="submit"
+        class="block w-full px-3 py-2 bg-cust-yellow-700 rounded-full text-center text-white">Update</button>
+    </form>
+  </main>
+
+
+  <!-- jQuery, Axios, Custom JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+  <script>
+    $(document).ready(function () {
+      
+      $('#edit-thumbnail-button').click(() => {
+        $('#container-thumbnail').addClass('hidden')
+        $('#container-thumbnail').removeClass('block')
+        $('#container-image-upload').addClass('block')
+        $('#container-image-upload').removeClass('hidden')
+      })
+
+      $('#cancel-edit-thumbnail-button').click(() => {
+        $('#container-thumbnail').addClass('block')
+        $('#container-thumbnail').removeClass('hidden')
+        $('#container-image-upload').addClass('hidden')
+        $('#container-image-upload').removeClass('block')
+      })
+      
+      var urlParams = new URLSearchParams(window.location.search)
+      id = urlParams.get('id')
+      
+      
+      $('#container-loading').removeClass('hidden')
+      $.ajax({
+        url: `http://127.0.0.1:5000/get-article/${id}`,
+        type: "GET",
+        success: (res) => {
+          console.log(res)
+          $('#thumbnail-img').attr('src', res.thumbnail_url)
+          $('#thumbnail-img').attr('alt', "image thumbnail")
+
+          $('#title').val(res.title)
+          $('#sub_title').val(res.sub_title)
+          tinymce.init({
+            selector: '#mytextarea',
+            plugins: ' autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste help wordcount',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | bullist numlist outdent indent | removeformat | help | image',
+            init_instance_callback: function (editor) {
+              editor.setContent(res.body);
+            },
+            images_upload_url: '/your-upload-endpoint',
+            images_upload_handler: function (blobInfo, success, failure) {
+              var xhr, formData;
+
+              xhr = new XMLHttpRequest();
+              xhr.withCredentials = false;
+              xhr.open('POST', '/your-upload-endpoint');
+
+              xhr.onload = function () {
+                var json;
+
+                if (xhr.status != 200) {
+                  failure('HTTP Error: ' + xhr.status);
+                  return;
+                }
+
+                json = JSON.parse(xhr.responseText);
+
+                if (!json || typeof json.location != 'string') {
+                  failure('Invalid JSON: ' + xhr.responseText);
+                  return;
+                }
+
+                success(json.location);
+              };
+
+              formData = new FormData();
+              formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+              xhr.send(formData);
+            }
+          })
+        },
+        error: (err) => {
+          console.log(err)
+        },
+        complete: () => {
+          $('#container-loading').addClass('hidden')
+
+        }
+      })
+
+
+
+
+      $('#uploadForm').on('submit', function (event) {
+
+        $('#container-loading').removeClass('hidden')
+
+        event.preventDefault();
+
+
+
+        var formData = new FormData();
+
+        formData.append('title', $('#title').val())
+        formData.append('sub_title', $('#sub_title').val())
+        formData.append('body', tinymce.get('mytextarea').getContent())
+        formData.append('created_at', $('#created_at').val())
+        var imageFile = $('#image')[0].files[0];
+        if (imageFile) {
+          formData.append('image', imageFile);
+        }
+
+        $.ajax({
+          url: `http://127.0.0.1:5000/update/article/${id}`,
+          type: 'PUT',
+          data: formData,
+          processData: false,
+          contentType: false,
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          success: function (response) {
+            window.location.href = '/view/writer/dashboard.html'
+          }, error: (err) => {
+            console.log(err)
+          }, complete: () => {
+            $('#container-loading').addClass('hidden')
+          }
+        })
+      }
+      )
+    })
+  </script>
+
+</body>
+
+</html>
