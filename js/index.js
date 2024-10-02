@@ -11,6 +11,9 @@ function dinamicNav() {
           if (res.is_verif == true) {
             $('#dinamic-nav-content').append(
               `
+              <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+                Logout
+              </div>
               <a href="/view/writer/dashboard.html" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
                 Writer Dashboard
               </a>
@@ -22,6 +25,9 @@ function dinamicNav() {
           } else {
             $('#dinamic-nav-content').append(
               `
+              <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+                Logout
+              </div>
               <div class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
                 Menunggu Verifikasi Admin
               </div>
@@ -31,6 +37,9 @@ function dinamicNav() {
         } else if (res.role == 'admin') {
           $('#dinamic-nav-content').append(
             `
+            <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+                Logout
+            </div>
             <a href="/view/admin/list-article.html" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
               List Article
             </a>
@@ -43,6 +52,9 @@ function dinamicNav() {
           $('#dinamic-nav-content').append(
 
           `
+          <div id="logout" class="border border-slate-300 px-3 py-1 rounded-full hover:bg-slate-50 transition-all">
+            Logout
+          </div>
           <div id="register-as-writer" data-id='${res.id}' class="border border-cust-yellow-700 bg-cust-yellow-700 hover:bg-cust-yellow-700/80 transition-all text-white px-3 py-1 rounded-full cursor-pointer">
             Daftar menjadi Penulis
           </div>
@@ -66,6 +78,11 @@ function dinamicNav() {
     )
   }
 }
+
+$('nav').on('click', 'div#logout', function () {
+  localStorage.removeItem('token')
+  window.location.href = '/view/index.html'
+});
 
 $('nav').on('click', 'div#register-as-writer', function () {
   const id = $(this).data('id')
