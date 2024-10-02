@@ -65,6 +65,13 @@
 <body>
   <main class="p-12 flex items-center justify-center w-full min-h-screen">
     <div class="min-w-[200px] flex-1 max-w-[400px]">
+      <a href="/view/index.html"
+        class="flex gap-2 items-center w-fit py-2 px-3 border border-slate-200 rounded-full mb-5 hover:bg-slate-50 transition-all mb-8">
+        <span class="material-symbols-outlined text-neutral-700">
+          arrow_back_ios
+        </span>
+        kembali membaca
+      </a>
       <div class="flex items-center gap-3 mb-14 mx-auto w-fit">
         <img src="../assets/logo.png" alt="Blogsite logo" class="w-12">
         <strong class="text-3xl">Blogsite</strong>
@@ -103,7 +110,8 @@
       </div>
       <button id="login-button" class="block w-full bg-cust-yellow-700 text-white mb-3">Login</button>
       <div class="w-fit mx-auto">
-        <div>Don't have an account yet? <a href="/view/register.html" class="text-cust-yellow-700 underline">register here!</a></div>
+        <div>Don't have an account yet? <a href="/view/register.html" class="text-cust-yellow-700 underline">register
+            here!</a></div>
       </div>
     </div>
   </main>
@@ -114,7 +122,7 @@
 
   <script>
     $(document).ready(function () {
-      $('#login-button').click(()=>{
+      $('#login-button').click(() => {
         const email = $('#email').val()
         const password = $('#password').val()
 
@@ -126,7 +134,7 @@
             password: password,
           }),
           contentType: "application/json",
-          success: (res)=>{
+          success: (res) => {
             localStorage.setItem('token', res.data.token)
             window.location.href = '/view/index.html'
           }

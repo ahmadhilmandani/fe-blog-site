@@ -65,6 +65,13 @@
 <body>
   <main class="p-12 flex items-center justify-center w-full min-h-screen">
     <div class="min-w-[200px] flex-1 max-w-[400px]">
+      <a href="/view/index.html"
+        class="flex gap-2 items-center w-fit py-2 px-3 border border-slate-200 rounded-full mb-5 hover:bg-slate-50 transition-all mb-8">
+        <span class="material-symbols-outlined text-neutral-700">
+          arrow_back_ios
+        </span>
+        kembali membaca
+      </a>
       <div class="flex items-center gap-3 mb-14 mx-auto w-fit">
         <img src="../assets/logo.png" alt="Blogsite logo" class="w-12">
         <strong class="text-3xl">Blogsite</strong>
@@ -131,7 +138,8 @@
       </div>
       <button id="register-button" class="block w-full bg-cust-yellow-700 text-white mb-3">Register</button>
       <div class="w-fit mx-auto">
-        <div>Already have an account? <a href="/view/login.html" class="text-cust-yellow-700 underline">Login here!</a></div>
+        <div>Already have an account? <a href="/view/login.html" class="text-cust-yellow-700 underline">Login here!</a>
+        </div>
       </div>
     </div>
   </main>
@@ -142,7 +150,7 @@
 
   <script>
     $(document).ready(function () {
-      $('#register-button').click(()=>{
+      $('#register-button').click(() => {
         const name = $('#name').val()
         const email = $('#email').val()
         const short_bio = $('#short_bio').val()
@@ -158,7 +166,7 @@
             password: password,
           }),
           contentType: "application/json",
-          success: (res)=>{
+          success: (res) => {
             window.location.href = '/view/login.html'
           }
         })
