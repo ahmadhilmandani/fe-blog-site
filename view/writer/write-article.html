@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blogsite</title>
   <script>
-    if(!localStorage.getItem('token')){
+    if (!localStorage.getItem('token')) {
       window.location.href = '/view/login.html'
     }
   </script>
@@ -72,6 +72,15 @@
 </head>
 
 <body>
+  <div id="container-loading"
+    class="fixed top-0 bottom-0 right-0 left-0 bg-white bg-opacity-80 flex items-center justify-center z-[500] hidden">
+    <div class="bg-cust-yellow-700 text-white px-8 py-3 rounded-lg font-bold flex gap-2 items-center">
+      <span class="material-symbols-outlined animate-spin text-white">
+        progress_activity
+      </span>
+      Loading...
+    </div>
+  </div>
   <!-- nav -->
   <nav
     class="flex items-center justify-between px-12 py-5 border-b border-slate-200 fixed top-0 left-0 right-0 bg-white z-[99]">
@@ -166,6 +175,8 @@
   <script>
     $(document).ready(function () {
       $('#uploadForm').on('submit', function (event) {
+        $('#container-loading').removeClass('hidden')
+
         event.preventDefault();
 
         var formData = new FormData();
@@ -190,6 +201,8 @@
             window.location.href = '/view/writer/dashboard.html'
           }, error: (err) => {
             console.log(err)
+          }, complete: () => {
+            $('#container-loading').removeClass('hidden')
           }
         })
       }
